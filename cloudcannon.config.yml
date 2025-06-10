@@ -62,4 +62,7 @@ collections_config:
     new_preview_url:
     schemas:
     schema_key:
+_inputs:
+  related_recipe:
+    type: file
 timezone: Etc/UTC
