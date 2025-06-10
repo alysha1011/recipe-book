@@ -64,5 +64,5 @@ collections_config:
     schema_key:
 _inputs:
   related_recipe:
-    type: file
+    type: url
 timezone: Etc/UTC
