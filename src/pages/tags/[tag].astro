@@ -29,7 +29,7 @@ export async function getStaticPaths({ paginate }: { paginate: Function }) {
 
     return paginate(recipesWithTag, {
       params: { tag },
-      pageSize: "page_size" in pageEntry.data ? pageEntry.data.page_size : 6,
+      pageSize: 6,
     });
   });
 }
