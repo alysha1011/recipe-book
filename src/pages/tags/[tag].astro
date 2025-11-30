@@ -1,0 +1,55 @@
+---
+import type { Page } from "astro";
+import PageLayout from "../../layouts/Base.astro";
+import { getCollection, getEntry, type CollectionEntry } from "astro:content";
+
+import Heading from "@components/generic/heading/heading.astro";
+import RecipeList from "@components/structures/recipe-list/list.astro";
+
+type Props = {
+  page: Page<CollectionEntry<"recipes">>;
+};
+
+export async function getStaticPaths({ paginate }: { paginate: Function }) {
+  const allRecipes = await getCollection("recipes");
+  const pageEntry = await getEntry("pages", "recipes");
+
+  // 1. Extract all tags in your collection
+  const allTags = [
+    ...new Set(
+      allRecipes.flatMap((recipe) => recipe.data.tags || [])
+    )
+  ];
+
+  // 2. Build paginated paths **per tag**
+  return allTags.flatMap((tag) => {
+    const recipesWithTag = allRecipes.filter((r) =>
+      r.data.tags?.includes(tag)
+    );
+
+    return paginate(recipesWithTag, {
+      params: { tag },
+      pageSize: "page_size" in pageEntry.data ? pageEntry.data.page_size : 6,
+    });
+  });
+}
+
+const pageEntry = await getEntry("pages", "recipes");
+
+// This page receives only the filtered recipes from `paginate()`
+const recipes = Astro.props.page.data;
+
+const { tag } = Astro.params;
+---
+
+<PageLayout
+  title={`Recipes tagged: ${tag}`}
+  description={pageEntry.data.description}
+>
+  <section class="grid grid-cols-mobile desktop:grid-cols-desktop py-16 gap-4">
+    <div class="col-span-content grid gap-8">
+      <Heading text={`Recipes tagged: ${tag}`} heading_alignment="center" heading_heirarchy="h1" heading_size="2xl" class=""/>
+      <RecipeList recipes={recipes} />
+    </div>
+  </section>
+</PageLayout>
