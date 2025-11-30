@@ -10,8 +10,8 @@ hero_image:
     path:
     alt: Placeholder image
 serves: 2
-prep_time:
-cooking_time:
+prep_time: 10mins
+cooking_time: 0mins
 original_recipe:
 tags:
     - Biscoff
