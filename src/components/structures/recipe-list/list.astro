@@ -16,7 +16,7 @@ const block = Astro.props;
                         {
                             recipe.data.tags.map((tag: string) => {
                                 return (
-                                    <p class="bg-indigo-300 p-1">{tag}</p>
+                                    <a class="bg-indigo-300 p-1 hover:bg-indigo-400" href={`/tags/${tag}/1`}>{tag}</a>
                                 )
                             })
                         }
